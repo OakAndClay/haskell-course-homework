@@ -9,9 +9,11 @@ f1 x y z = x ** (y/z)
 f2 :: Floating a => a -> a -> a -> a
 f2 x y z = sqrt (x/y - z)
 
--- f3 x y = [x == True] ++ [y]
+f3 :: Bool -> Bool -> [Bool]
+f3 x y = [x == True] ++ [y]
 
--- f4 x y z = x == (y ++ z)
+f4 :: Eq a => [a] -> [a] -> [a] -> Bool
+f4 x y z = x == (y ++ z)
 
 
 -- Question 2
