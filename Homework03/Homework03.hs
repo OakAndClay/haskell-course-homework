@@ -30,9 +30,9 @@ checkConsumption' c h m
 -- Write a function that showcases the advantages of using let expressions to split a big expression into smaller ones.
 -- Then, share it with other students in Canvas.
 {-
-Write a program that takes in the distance to destination in miles (d) the amount of fuel in the vehicle in gallons (g) the average speed of travel 
+Write a function that takes in the distance to destination in miles (d) the amount of fuel in the vehicle in gallons (g) the average speed of travel 
 in mph (s) and the mpg (m) and returns a response for the possible outcomes
--Have enough fuel and arrive in the next _ minutes with _ gallons remaining
+-Have enough fuel and arrive in about _ minutes with _ gallons remaining
 -Don't have enough fuel and need to refuel within the next _ minutes 
 -Might make it there
 -}
