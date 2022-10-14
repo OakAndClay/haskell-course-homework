@@ -32,22 +32,26 @@ checkConsumption' c h m
 {-
 Write a program that takes in the distance to destination in miles (d) the amount of fuel in the vehicle in gallons (g) the average speed of travel 
 in mph (s) and the mpg (m) and returns a response for the possible outcomes
-Have enough fuel and arrive in the next _ minutes
-Don't have enough fuel and need to refuel within the next _ minutes 
+-Have enough fuel and arrive in the next _ minutes with _ gallons remaining
+-Don't have enough fuel and need to refuel within the next _ minutes 
+-Might make it there
 -}
 
-fuelCheck :: (Ord a, Show a, Num a, Fractional a) => a -> a -> a -> a -> String
+fuelCheck :: (Ord a, Show a, Num a, Fractional a, RealFrac a) => a -> a -> a -> a -> String
 fuelCheck d g s m = 
-    let distanceToEmpty = g - m
-        timeToArrival   = show $ (d / s) * 60
-        timeToEmpty     = show $ (distanceToEmpty / s) * 60
+    let 
+        fuelSurplus     = show $ g - galToDest
+        distanceToEmpty = g * m
+        galToDest       = (d / m)
+        timeToArrival   = show $ round (d / s) * 60
+        timeToEmpty     = show $ round (distanceToEmpty / s) * 60
     in 
-        if d > distanceToEmpty   
-            then "You have enough fuel and you will arive in " ++ timeToArrival ++ " minutes."
+        if d < distanceToEmpty   
+            then "You have enough fuel and you will arive in about " ++ timeToArrival ++ " minutes. With " ++ fuelSurplus ++ " gallons remaining."
             else
-                if d < distanceToEmpty   
-                    then "You need to refule in " ++ timeToEmpty ++ " minutes or you will run out of gas."
-                    else "You might make it there"
+                if d > distanceToEmpty   
+                    then "You need to re-fuel. In about " ++ timeToEmpty ++ " minutes you will run out of gas."
+                    else "You might make it there. Be careful."
 
 -- Question 4
 -- Write a function that takes in two numbers and returns their quotient such that it is not greater than 1.
