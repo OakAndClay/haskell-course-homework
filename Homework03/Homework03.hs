@@ -57,7 +57,21 @@ fuelCheck d g s m =
 -- Write a function that takes in two numbers and returns their quotient such that it is not greater than 1.
 -- Return the number as a string, and in case the divisor is 0, return a message why the division is not
 -- possible. To implement this function using both guards and if-then-else statements.  
+q4 :: (Ord a, Show a, Fractional a) => a -> a -> String
+q4 x y = 
+    if x == 0 || y == 0
+        then "This isn't possible"
+        else
+            if x > y
+                then show $ y / x
+                else    
+                     show $ x / y
 
+q4' :: (Ord a, Show a, Fractional a) => a -> a -> String
+q4' x y
+    | x == 0 || y == 0 = "This isn't possible"
+    | x > y            = show $ y / x
+    | otherwise        = show $ x / y
 
 -- Question 5
 -- Write a function that takes in two numbers and calculates the sum of squares for the product and quotient
