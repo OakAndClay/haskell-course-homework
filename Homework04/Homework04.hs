@@ -16,9 +16,9 @@ get4 [([_,_],[_,_]),([_,_],[4,_])] = "4 is in the seventh position"
 get4 [([_,_],[_,_]),([_,_],[_,4])] = "4 is in the eigth position" 
 get4 [([_,_],[_,_]),([_,_],[_,_])] = "There is no 4" 
 
-
-
-
+get4' :: Show a1 => [([a2], [a1])] -> [Char]
+get4'[([_,_],[_,x]),([_,_],[_,_])] = "The fourth position is a " ++ show x ++ "."
+get4' _                            = "It doesn't matter."                            
 
 -- Question 2
 -- Write a function that takes a list of elements of any type and, if the list has 3 or more elements, it
