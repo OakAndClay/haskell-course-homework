@@ -77,3 +77,8 @@ q4' x y
 -- Write a function that takes in two numbers and calculates the sum of squares for the product and quotient
 -- of those numbers. Write the function such that you use a where block inside a let expression and a
 -- let expression inside a where block.
+
+sumSquares :: Floating a => a -> a -> a
+sumSquares x y =    let prodSqrt = sqrt xyProd where xyProd = x * y 
+                    in prodSqrt + quotSqrt 
+                    where quotSqrt = let xyQuot = x / y in sqrt xyQuot
