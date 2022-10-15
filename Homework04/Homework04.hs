@@ -5,6 +5,21 @@
 nested :: [([Int], [Int])]
 nested = [([1,2],[3,4]), ([5,6],[7,8])]
 
+get4 :: (Eq a1, Eq a2, Num a1, Num a2) => [([a1], [a2])] -> String
+get4 [([4,_],[_,_]),([_,_],[_,_])] = "4 is in the first position" 
+get4 [([_,4],[_,_]),([_,_],[_,_])] = "4 is in the second position" 
+get4 [([_,_],[4,_]),([_,_],[_,_])] = "4 is in the third position" 
+get4 [([_,_],[_,4]),([_,_],[_,_])] = "4 is in the fourth position" 
+get4 [([_,_],[_,_]),([4,_],[_,_])] = "4 is in the firth position" 
+get4 [([_,_],[_,_]),([_,4],[_,_])] = "4 is in the sixth position" 
+get4 [([_,_],[_,_]),([_,_],[4,_])] = "4 is in the seventh position" 
+get4 [([_,_],[_,_]),([_,_],[_,4])] = "4 is in the eigth position" 
+get4 [([_,_],[_,_]),([_,_],[_,_])] = "There is no 4" 
+
+
+
+
+
 -- Question 2
 -- Write a function that takes a list of elements of any type and, if the list has 3 or more elements, it
 -- removes them. Else, it does nothing. Do it two times, one with multiple function definitions and one with
