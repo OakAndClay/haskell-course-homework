@@ -53,6 +53,19 @@ fuelCheck d g s m =
                     then "You need to re-fuel. In about " ++ timeToEmpty ++ " minutes you will run out of gas."
                     else "You might make it there. Be careful."
 
+fuelCheck' :: (Ord a, Show a, Num a, Fractional a, RealFrac a) => a -> a -> a -> a -> String
+fuelCheck' d g s m
+    | d < distanceToEmpty   = "You have enough fuel and you will arive in about " ++ timeToArrival ++ " minutes. With " ++ fuelSurplus ++ " gallons remaining."
+    | d > distanceToEmpty   = "You need to re-fuel. In about " ++ timeToEmpty ++ " minutes you will run out of gas."
+    | otherwise             = "You might make it there. Be careful."
+        where
+            fuelSurplus     = show $ g - galToDest
+            distanceToEmpty = g * m
+            galToDest       = (d / m)
+            timeToArrival   = show $ round (d / s) * 60
+            timeToEmpty     = show $ round (distanceToEmpty / s) * 60
+
+
 -- Question 4
 -- Write a function that takes in two numbers and returns their quotient such that it is not greater than 1.
 -- Return the number as a string, and in case the divisor is 0, return a message why the division is not
@@ -72,6 +85,12 @@ q4' x y
     | x == 0 || y == 0 = "This isn't possible"
     | x > y            = show $ y / x
     | otherwise        = show $ x / y
+
+q4'' :: (Ord a, Show a, Fractional a) => a -> a -> String
+q4'' x y
+    | x > y     = if x /= 0 then show $ y / x else "x is greater but 0"
+    | x < y     = if y /= 0 then show $ x / y else "y is greater but 0"
+    | otherwise = if x /= 0 then "1" else "x and y are both zero"
 
 -- Question 5
 -- Write a function that takes in two numbers and calculates the sum of squares for the product and quotient
