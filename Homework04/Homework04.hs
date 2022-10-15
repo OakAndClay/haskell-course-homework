@@ -1,3 +1,4 @@
+import Distribution.Simple.Utils (xargs)
 -- Question 1
 -- Lets say you have the nested values defined bellow. How would you get the value of
 -- 4 by using only pattern matching in a function?
@@ -25,6 +26,22 @@ get4' _                            = "It doesn't matter."
 -- removes them. Else, it does nothing. Do it two times, one with multiple function definitions and one with
 -- case expressions.
 
+-- Guards version
+three :: [a] -> [a]
+three xs
+    | length xs >= 3 = []
+    | otherwise      = xs
+-- Case of
+three' :: [a] -> [a]
+three' xs = case xs of
+    [_,_,_]    -> []
+    [_,_,_,xs] -> []
+    [_]        -> xs
+-- Pattern matching functions
+three'' :: [a] -> [a]
+three'' [_,_,_]     = []
+three'' [_,_,_,xs]  = []
+three'' xs          = xs       
 
 -- Question 3
 -- Create a function that takes a 3-element tuple (all of type Integer) and adds them together
