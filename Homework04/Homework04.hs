@@ -35,7 +35,7 @@ three xs
 -- Case of
 three' :: [a] -> [a]
 three' xs = case xs of
-    (_:_:_:xs) -> []
+    (_:_:_:xs) -> xs
     x          -> x 
 
 -- Pattern matching functions
