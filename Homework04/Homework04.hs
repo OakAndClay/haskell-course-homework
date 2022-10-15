@@ -31,30 +31,35 @@ three :: [a] -> [a]
 three xs
     | length xs >= 3 = []
     | otherwise      = xs
+
 -- Case of
 three' :: [a] -> [a]
 three' xs = case xs of
-    [_,_,_]    -> []
-    [_,_,_,xs] -> []
-    [_]        -> xs
+    (_:_:_:xs) -> []
+    x          -> x 
+
 -- Pattern matching functions
 three'' :: [a] -> [a]
-three'' [_,_,_]     = []
-three'' [_,_,_,xs]  = []
-three'' xs          = xs       
+three'' (_:_:_:xs) = xs
+three'' x          = x       
 
 -- Question 3
 -- Create a function that takes a 3-element tuple (all of type Integer) and adds them together
-
+sumTuple3 :: (Integer, Integer, Integer) -> Integer
+sumTuple3 (x,y,z) = x + y + z
 
 -- Question 4
 -- Implement a function that returns True if a list is empty and False otherwise.
-
+emptyList :: [a] -> Bool
+emptyList [] = True
+emptyList _  = False
 
 -- Question 5
 -- Write the implementation of the tail function using pattern matching. But, instead of failing if
 -- the list is empty, return an empty list.
-
+tail' :: [a] -> [a]
+tail' []      = []
+tail' (x:xs)  = xs
 
 -- Question 6
 -- write a case expression wrapped in a function that takes an Int and adds one if it's even. Otherwise does nothing. 
