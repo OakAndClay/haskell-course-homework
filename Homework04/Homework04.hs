@@ -64,4 +64,7 @@ tail' (x:xs)  = xs
 -- Question 6
 -- write a case expression wrapped in a function that takes an Int and adds one if it's even. Otherwise does nothing. 
 -- (Use the `even` function to check if the number is even.)
-
+addEven :: Integral a => a -> a
+addEven x = case even x of
+    True  -> x + 1
+    False -> x
