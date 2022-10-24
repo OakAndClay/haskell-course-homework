@@ -1,22 +1,63 @@
+-- The first batch of functions here will be exercises from learn you a haskell and the lesson.
+-- I am trying to write these without looking at the solution.
+
+-- My first attempt at replicate' mistakenly returned the value into the list instead of an empty list. When r = 0
+-- This produced a returned list that was 1 element too long.
+{-
+replicate' :: Int -> a -> [a]
+replicate' 0 v = [v]
+replicate' r v = v : replicate' (r-1) v
+-}
+-- The correct implementation is the answer to Q2
+
+-- My first attempt at take' forgot to account for the possibility of a negative imput for r.
+{-
+take' :: Int -> [a] -> [a]
+take' 0 _      = []
+take' r []     = []
+take' r (x:xs) = x : take' (r-1) xs
+-}
+
+-- This is a correct implementation
+take' :: Int -> [a] -> [a]
+take' r _ 
+  | r <= 0     = []
+take' r []     = []
+take' r (x:xs) = x : take' (r-1) xs
+
+zip' :: [a] -> [a] -> [a]
+zip' _ [] = []
+zip' [] _ = []
+zip' (x:xs) (y:ys) = [x,y] ++ zip' xs ys
+
 -- Question 1
 -- Write a function called `repeat'` that takes a value and creates an infinite list with
 -- the value provided as every element of the list.
 --
 -- >>> repeat 17
 --[17,17,17,17,17,17,17,17,17...
-
+repeat' :: a -> [a]
+repeat' a = a : repeat' a
 
 -- Question 2
 -- Using the `repeat'` function and the `take` function we defined in the lesson (comes with Haskell),
 -- create a function called `replicate'` that takes a number `n` and a value `x` and creates a list
 -- of length `n` with `x` as the value of every element. (`n` has to be Integer.)
 --
+-- This is implementation produces correct results.
+replicate' :: Int -> a -> [a]
+replicate' r v
+  | r <= 0 = []
+  | otherwise = v : replicate' (r-1) v
+
 -- >>> replicate 0 True
 -- []
 -- >>> replicate (-1) True
 -- []
 -- >>> replicate 4 True
 -- [True,True,True,True]
+
+
 
 
 -- Question 3
