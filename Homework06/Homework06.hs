@@ -1,4 +1,4 @@
--- The first batch of functions here will be exercises from learn you a haskell and the lesson.
+-- The first batch of functions here will be exercises from Learn You a Haskell (LYH) and the lesson.
 -- I am trying to write these without looking at the solution.
 
 -- My first attempt at replicate' mistakenly returned the value into the list instead of an empty list. When r = 0
@@ -25,10 +25,22 @@ take' r _
 take' r []     = []
 take' r (x:xs) = x : take' (r-1) xs
 
+-- My first implementation of zip' returned a list combining the two different lists
+{-
 zip' :: [a] -> [a] -> [a]
-zip' _ [] = []
-zip' [] _ = []
+zip' _ []          = []
+zip' [] _          = []
 zip' (x:xs) (y:ys) = [x,y] ++ zip' xs ys
+-}
+
+-- zip' in LYH is suposed to return a list of tuples so that two different types could be combined. I'll do that with zip''
+{-
+zip'' :: [a] -> [b] -> [(a,b)]
+zip'' _ [] = []
+zip'' [] _ = []
+zip'' (x:xs) (y:ys) = (x,y):zip'' xs ys
+-}
+
 
 -- Question 1
 -- Write a function called `repeat'` that takes a value and creates an infinite list with
@@ -45,10 +57,10 @@ repeat' a = a : repeat' a
 -- of length `n` with `x` as the value of every element. (`n` has to be Integer.)
 --
 -- This is implementation produces correct results.
-replicate' :: Int -> a -> [a]
-replicate' r v
+replicate'' :: Int -> a -> [a]
+replicate'' r v
   | r <= 0 = []
-  | otherwise = v : replicate' (r-1) v
+  | otherwise = v : replicate'' (r-1) v
 
 -- >>> replicate 0 True
 -- []
@@ -63,6 +75,11 @@ replicate' r v
 -- Question 3
 -- Write a function called `concat'` that concatenates a list of lists.
 --
+concat' :: [[a]] -> [a]
+concat' []   = []
+concat' [x]    = x
+concat' (x:xs) = x ++ concat' xs
+
 -- >>> concat' [[1,2],[3],[4,5,6]]
 -- [1,2,3,4,5,6]
 
@@ -71,6 +88,12 @@ replicate' r v
 -- Write a function called `zip'` that takes two lists and returns a list of
 -- corresponding pairs (zips them) like this:
 --
+
+zip' :: [a] -> [b] -> [(a,b)]
+zip' _ []          = []
+zip' [] _          = []
+zip' (x:xs) (y:ys) = (x,y):zip' xs ys
+
 -- >>> zip' [1, 2] ['a', 'b']
 -- [(1,'a'),(2,'b')]
 --
@@ -100,12 +123,17 @@ replicate' r v
 --
 -- >>> zipWith (+) [1, 2, 3] [4, 5, 6]
 -- [5,7,9]
+zipwith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipwith' _ _ []  = []
+zipwith' _ [] _  = []
+zipwith' f (x:xs) (y:ys) = f x y : zipwith' f xs ys
 
 
 -- Question 6
 -- Write a function called `takeWhile'` that takes a precate and a list and
 -- returns the list up until an element that doesn't satisfy the predicate.
 --
+
 -- >>> takeWhile (< 3) [1,2,3,4,1,2,3,4]
 -- [1,2]
 -- >>> takeWhile (< 9) [1,2,3]
