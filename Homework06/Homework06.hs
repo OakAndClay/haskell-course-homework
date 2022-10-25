@@ -130,9 +130,14 @@ zipwith' f (x:xs) (y:ys) = f x y : zipwith' f xs ys
 
 
 -- Question 6
--- Write a function called `takeWhile'` that takes a precate and a list and
+-- Write a function called `takeWhile'` that takes a predicate and a list and
 -- returns the list up until an element that doesn't satisfy the predicate.
 --
+takeWhile' :: (a -> Bool) -> [a] -> [a]
+takeWhile' p [] = []
+takeWhile' p (x:xs) 
+  | p x       = x : takeWhile' p xs
+  | otherwise = []
 
 -- >>> takeWhile (< 3) [1,2,3,4,1,2,3,4]
 -- [1,2]
@@ -145,8 +150,12 @@ zipwith' f (x:xs) (y:ys) = f x y : zipwith' f xs ys
 -- Question 7 (More difficult)
 -- Write a function that takes in an integer n, calculates the factorial n! and
 -- returns a string in the form of 1*2* ... *n = n! where n! is the actual result.
-
-
+factorial n = insertMult [1..n] ++ " = " ++ (show $ product [1..n])
+  where
+    insertMult [] = ""
+    insertMult (x:xs) = x ++ "*" ++ insertMult xs
+    product [] = 1
+    product (x:xs) = x * product xs
 -- Question 8
 -- Below you have defined some beer prices in bevogBeerPrices and your order list in
 -- orderList + the deliveryCost. Write a function that takes in an order and calculates
