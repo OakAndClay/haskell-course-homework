@@ -150,10 +150,11 @@ takeWhile' p (x:xs)
 -- Question 7 (More difficult)
 -- Write a function that takes in an integer n, calculates the factorial n! and
 -- returns a string in the form of 1*2* ... *n = n! where n! is the actual result.
-factorial n = insertMult [1..n] ++ " = " ++ (show $ product [1..n])
+factorial :: (Show a, Num a, Enum a) => a -> [Char]
+factorial n = init (insertMult [1..n]) ++ " = " ++ show (product [1..n])
   where
     insertMult [] = ""
-    insertMult (x:xs) = x ++ "*" ++ insertMult xs
+    insertMult (x:xs) = show x ++ "*" ++ insertMult xs
     product [] = 1
     product (x:xs) = x * product xs
 -- Question 8
