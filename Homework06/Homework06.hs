@@ -162,6 +162,8 @@ factorial n = init (insertMult [1..n]) ++ " = " ++ show (product [1..n])
 -- orderList + the deliveryCost. Write a function that takes in an order and calculates
 -- the cost including delivery. Assume that the two lists have the beers in the same order.
 
+
+
 bevogBeerPrices :: [(String, Double)]
 bevogBeerPrices =
   [ ("Tak", 6.00),
@@ -179,3 +181,8 @@ orderList =
 
 deliveryCost :: Double
 deliveryCost = 8.50
+
+order :: [(String, Double)] -> [(String, Double)] -> Double
+order [] _ = deliveryCost
+order _ [] = deliveryCost
+order ((_,x):xs) ((_,y):ys) = (x*y) + order xs ys
