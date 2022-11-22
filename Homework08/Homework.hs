@@ -91,6 +91,7 @@ castiglioni = Bottle
     , region = ("Italy", "Tuscany")
     , kind   = (Red, "12.5%")
     }
+
 -- Bordeaux is known for its red wine, these are mainly a blend between Cabernet-sauvignon and Merlot.
 -- Create a Label for the wine "Le Petit Haut Lafitte" that has an alcohol percentage 13.5%.
 lePetitHautLafitte :: Bottle
@@ -100,9 +101,29 @@ lePetitHautLafitte = Bottle
     , region = ("France", "Bordeaux")
     , kind   = (Red, "13.5%")
     }
+
+grapes :: Bottle -> [String]
+grapes Bottle {grape=g} = g 
+
+labels :: Bottle -> String
+labels Bottle {label=l} = l
+
+
+listGrapes :: [Bottle] -> [[String]]
+listGrapes [] = []
+listGrapes (Bottle {grape=g}:gs) = g : listGrapes gs
+
+
 -- Question 5
 -- Write a function `containsGrape` that takes a list of Labels and a Grape and returns a boolean.
 -- The function should check if the there exists a wine in the Label that contains this Grape.
+
+containsGrape :: String -> [Bottle] -> Bool
+containsGrape _ [] = False
+containsGrape x (Bottle {grape=g}:gs)
+    | x `elem` g = True
+    | otherwise  = containsGrape x gs
+
 
 -- This is a test list for the `containsGrape` function with an grape that is not in the list.
 grapeList = [larrosaRose,castiglioni,lePetitHautLafitte]
