@@ -1,3 +1,4 @@
+import Data.ByteString (StrictByteString)
 {-
 
 **************************** IMPORTANT ****************************
@@ -33,6 +34,23 @@ It should look like this:
 *Main> solveMaze testMaze [GoForward, GoLeft]
 "YOU'VE FOUND THE EXIT!!"
 
+
+
+data Turns = GoLeft | GoRight | GoForward deriving (Eq)
+type Maze  = [Turns]
+
+testMaze :: Maze
+testMaze = [GoForward, GoLeft]
+
+solveMaze :: Maze -> Maze -> String
+solveMaze [] [] = "YOU'VE FOUND THE EXIT!!"
+solveMaze x []  = "You're still inside the maze. Choose a path, brave adventurer: GoLeft, GoRight, or GoForward."
+solveMaze (x:xs) (y:ys)
+    | x == y    = solveMaze xs ys
+    | otherwise = "You've hit a wall!"
+
+
+
 How are you going to achieve this? You can try it on your own, but here you have a
 step-by-step just in case:
 
@@ -53,3 +71,27 @@ still need to make another choice.
 
 6. Adapt adapt "solveMaze" function to use "showCurrentChoice" and play with your new game using GHCi! :D
 -}
+
+data Move = GoLeft | GoForward | GoRight 
+data Maze = FoundExit | HitWall | Passage Maze Maze Maze deriving (Show)
+
+move :: Maze -> Move -> Maze
+move FoundExit _               = FoundExit
+move HitWall _                 = HitWall
+move (Passage x _ _) GoLeft    = x
+move (Passage _ x _) GoForward = x
+move (Passage _ _ x) GoRight   = x
+
+testMaze :: Maze
+testMaze = Passage HitWall (Passage FoundExit HitWall HitWall) (Passage HitWall (Passage HitWall HitWall HitWall) HitWall)
+
+solveMaze :: Maze -> [Move] -> Maze
+solveMaze = foldl move
+
+showCurrentChoice :: Maze -> String
+showCurrentChoice Passage {} = "You are still in the cave, which way should we go?"
+showCurrentChoice FoundExit  = "You found the exit!"
+showCurrentChoice HitWall    = "You hit a wall!"
+
+solveMaze' :: Foldable t => Maze -> t Move -> String
+solveMaze' x y = showCurrentChoice (foldl move x y)

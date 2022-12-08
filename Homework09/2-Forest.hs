@@ -1,3 +1,5 @@
+-- import Main (Move(GoRight))
+-- import Data.Time.Format.ISO8601 (yearFormat)
 {-
 
 **************************** IMPORTANT ****************************
@@ -42,3 +44,54 @@ Using GHCi, like the "Maze" game, this game should look like this:
 *Main> solveForest testForest [GoForward, GoLeft , GoRight]
 "YOU'VE FOUND THE EXIT!!"
 -}
+
+data Move     = GoLeft | GoForward | GoRight
+data Forest a = FoundExit | Trail a (Forest a) (Forest a) (Forest a) deriving (Show, Eq)
+type Hike     = (Int, Forest Int)
+
+move :: Forest Int -> Move -> Forest Int
+move FoundExit _                = FoundExit
+move (Trail _ y _ _) GoLeft     = y
+move (Trail _ _ y _) GoForward  = y
+move (Trail _ _ _ y) GoRight    = y
+
+stamina :: Hike -> Int
+stamina (a,Trail x _ _ _) = a - x
+
+hike :: Hike -> Move -> Hike
+hike (x,y) z = (stamina (x,y), move y z)
+
+foldForest :: Hike -> [Move] -> Hike
+foldForest = foldl hike
+
+showCurrentChoice :: Hike -> String
+showCurrentChoice (x,y)
+    | x <= 0         = "You ran out of stamina and died -.-!"
+    | y == FoundExit = "YOU'VE FOUND THE EXIT!!"
+    | otherwise      = "You have " ++ show x ++ " stamina, and you're still inside the Forest. Choose a path, brave adventurer: GoLeft, GoRight, or GoForward."
+
+solveForest :: Forest Int -> [Move] -> String
+solveForest y z = showCurrentChoice $ foldForest (10,y) z
+
+testForest :: Forest Int
+testForest =
+  Trail
+    3
+    ( Trail
+        7
+        (Trail 3 FoundExit FoundExit FoundExit)
+        (Trail 4 FoundExit FoundExit FoundExit)
+        (Trail 5 FoundExit FoundExit FoundExit)
+    )
+    ( Trail
+        3
+        (Trail 3 FoundExit FoundExit FoundExit)
+        (Trail 9 FoundExit FoundExit FoundExit)
+        (Trail 5 FoundExit FoundExit FoundExit)
+    )
+    ( Trail
+        5
+        (Trail 3 FoundExit FoundExit FoundExit)
+        (Trail 4 FoundExit FoundExit FoundExit)
+        (Trail 1 FoundExit FoundExit FoundExit)
+    )
