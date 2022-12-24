@@ -1,3 +1,31 @@
+data Box a         = Empty          | Has a          deriving (Show)
+data Present t a   = EmptyPresent t | PresentFor t a deriving (Show)
+
+class Container c where
+  isEmpty  :: c a -> Bool
+  contains :: (Eq a) => c a -> a -> Bool
+  replace  :: c a -> b -> c b
+
+instance Container Box where
+  isEmpty Empty = True
+  isEmpty _     = False
+
+  contains (Has x) y = x == y
+  contains Empty _   = False
+
+  replace _ x = Has x
+
+instance Container (Present t) where
+  isEmpty (EmptyPresent _) = True
+  isEmpty _                = False
+
+  contains (PresentFor _ x) y = x == y
+  contains (EmptyPresent _) _ = False
+
+  replace (PresentFor tag _) x = PresentFor tag x
+  replace (EmptyPresent tag) x = PresentFor tag x
+
+
 {-
 -- Question 1 --
 Continuing with the logistics software of the lesson:
@@ -11,6 +39,7 @@ Continuing with the logistics software of the lesson:
  	- The parameter `d` is the person's details (address,etc).
  	- The parameter `a` is the content of the MailedBox
 -}
+
 
 data MailedBox t d a = EmptyMailBox t d | MailBoxTo t d a
 
